@@ -1,4 +1,4 @@
-# 마이크로서비스 기반 실시간 주문 처리 및 알림 시스템 (Real-time Order Flow) 🚀
+# 마이크로서비스 기반 실시간 주문 처리 및 알림 시스템 (Realtime Order System) 🚀
 
 이 프로젝트는 쇼핑몰의 주문 시스템을 **마이크로서비스 아키텍처**로 구현하고, **실시간 알림 및 채팅 기능**을 추가하여 현대적인 분산 시스템의 구축 경험을 제공합니다. 특히 **Spring Cloud, Message Queue (Kafka/RabbitMQ), 그리고 WebSocket**의 세 가지 핵심 기술을 효과적으로 활용하는 것에 중점을 두었습니다.
 
@@ -81,7 +81,7 @@
 이 프로젝트는 효율적인 개발 및 관리를 위해 모노레포(Monorepo) 구조를 채택했습니다. 모든 마이크로서비스 및 관련 설정 파일들은 단일 Git 저장소 내에 위치합니다.
 
 ```
-real-time-order-system/
+realtime-order-system/
 ├── config-repo/             # Spring Cloud Config Server가 참조할 설정 파일들
 │   └── order-service.yml
 │   └── inventory-payment-service.yml
