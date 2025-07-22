@@ -1,12 +1,12 @@
-server:
-  servlet:
-    context-path: /api/v1
-
 spring:
   application:
     name: order-service
   profiles:
     active: local
+
+server:
+  servlet:
+    context-path: /api/v1
 
 #springdoc:
 #  api-docs:
