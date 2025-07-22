@@ -1,0 +1,17 @@
+server:
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: order-service
+  profiles:
+    active: local
+
+#springdoc:
+#  api-docs:
+#    path: /v3/api-docs
+#  swagger-ui:
+#    path: /swagger-ui.html
+#    display-request-duration: true
+#    try-it-out-enabled: true
