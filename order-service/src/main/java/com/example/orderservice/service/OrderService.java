@@ -34,7 +34,7 @@ public class OrderService {
                 .map(ProductOrderRequest::from)
                 .toList();
 
-        List<ProductResponse> productResponses = productServiceClient.getProductsInfo(productOrderRequests);
+        List<ProductResponse> productResponses = productServiceClient.getProductsWithStockValidation(productOrderRequests);
 
         double totalAmount = 0;
         for (ProductResponse productResponse : productResponses) {

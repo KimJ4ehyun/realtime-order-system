@@ -11,5 +11,5 @@ import java.util.List;
 public interface ProductServiceClient {
 
     @PostMapping("/api/v1/products/stock/validate")
-    List<ProductResponse> getProductsInfo(@RequestBody List<ProductOrderRequest> requests);
+    List<ProductResponse> getProductsWithStockValidation(@RequestBody List<ProductOrderRequest> requests);
 }
