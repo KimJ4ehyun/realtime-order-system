@@ -6,7 +6,7 @@ import lombok.Getter;
 public class ProductResponse {
     private Long productId;
     private String productName;
-    private Double price;
+    private Double amount;
     private Integer quantity;
     private Boolean isStockValidated;
 }

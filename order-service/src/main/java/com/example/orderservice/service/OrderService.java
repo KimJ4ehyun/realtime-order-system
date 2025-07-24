@@ -39,7 +39,7 @@ public class OrderService {
         double totalAmount = 0;
         for (ProductResponse productResponse : productResponses) {
             if(productResponse.getIsStockValidated()) {
-                totalAmount += productResponse.getPrice() * productResponse.getQuantity();
+                totalAmount += productResponse.getAmount() * productResponse.getQuantity();
 
                 newOrder.addOrderItem(OrderItem.of(productResponse, newOrder));
             } else {

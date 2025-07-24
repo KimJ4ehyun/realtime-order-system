@@ -26,7 +26,7 @@ public class OrderItem {
 
     private Integer quantity;
 
-    private Double price;
+    private Double amount;
 
     public static OrderItem of(ProductResponse productResponse, Order order) {
         return OrderItem.builder()
@@ -34,7 +34,7 @@ public class OrderItem {
                 .productId(productResponse.getProductId())
                 .productName(productResponse.getProductName())
                 .quantity(productResponse.getQuantity())
-                .price(productResponse.getPrice())
+                .amount(productResponse.getAmount())
                 .build();
     }
 
