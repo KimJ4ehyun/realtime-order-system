@@ -35,7 +35,7 @@ public class PaymentService {
                 .map(ProductOrderRequest::from)
                 .toList();
 
-        boolean allStockValid = productServiceClient.getProductsInfo(productOrderRequests).stream()
+        boolean allStockValid = productServiceClient.getProductsWithStockValidation(productOrderRequests).stream()
                 .allMatch(ProductResponse::getIsStockValidated);
 
         if (allStockValid) {
