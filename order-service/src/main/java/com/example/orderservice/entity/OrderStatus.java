@@ -1,11 +1,13 @@
 package com.example.orderservice.entity;
 
 public enum OrderStatus {
-    PENDING,     // 주문 요청 상태
-    CREATED,     // 주문서 생성 완료
-    PAID,        // 결제 완료
-    SHIPPED,     // 배송 시작
-    COMPLETED,   // 배송 완료 및 거래 종료
-    CANCELLED,   // 주문 취소됨
-    FAILED       // 결제 실패, 시스템 에러 등
+    PENDING,        // 주문 접수됨 (처리 대기)
+    CREATED,        // 주문서 생성 완료 (재고 확보)
+    PAID,           // 결제 완료됨
+    SHIPPED,        // 상품 발송됨 (택배사 인계)
+    IN_TRANSIT,     // 배송 중 (물류 이동)
+    DELIVERING,     // 배송 기사 배정 (오늘 배달 예정)
+    DELIVERED,      // 배송 완료됨
+    CANCELLED,      // 주문 취소됨
+    FAILED          // 주문 처리 실패
 }
