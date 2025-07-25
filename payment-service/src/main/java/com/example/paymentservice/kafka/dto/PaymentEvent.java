@@ -2,13 +2,17 @@ package com.example.paymentservice.kafka.dto;
 
 import com.example.paymentservice.client.dto.OrderItemResponse;
 import com.example.paymentservice.client.dto.OrderResponse;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class PaymentEvent {
     private PaymentEventType eventType;

@@ -1,14 +1,14 @@
 package com.example.paymentservice.kafka.dto;
 
 import com.example.paymentservice.client.dto.OrderItemResponse;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@Builder
+@NoArgsConstructor
 public class ProductEvent {
     private ProductEventType eventType;
     private Long paymentId;
