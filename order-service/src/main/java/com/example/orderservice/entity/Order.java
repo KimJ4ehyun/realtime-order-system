@@ -49,4 +49,8 @@ public class Order extends BaseEntity {
         this.totalAmount = totalAmount;
         this.status = orderStatus;
     }
+
+    public void updateOrderStatus(OrderStatus orderStatus) {
+        this.status = orderStatus;
+    }
 }
