@@ -1,8 +1,11 @@
 package com.example.productservice.entity;
 
 import com.example.productservice.common.BaseEntity;
+import com.example.productservice.global.exception.CustomException;
 import jakarta.persistence.*;
 import lombok.*;
+
+import static com.example.productservice.global.exception.ErrorCode.PRODUCT_STOCK_IS_NOT_VALIDATED;
 
 @Entity
 @Table(name = "products")
@@ -26,10 +29,13 @@ public class Product extends BaseEntity {
     private Double amount;
 
     public boolean isStockAvailable(int quantity) {
-        return stock >= quantity;
+        return this.stock >= quantity;
     }
 
-    public void updateStock(int quantity) {
-        stock -= quantity;
+    public void decreaseStock(int quantity) {
+        if (this.stock < quantity) {
+            throw new CustomException(PRODUCT_STOCK_IS_NOT_VALIDATED);
+        }
+        this.stock -= quantity;
     }
 }
