@@ -72,4 +72,10 @@ public class OrderService {
             order.updateOrderStatus(OrderStatus.FAILED);
         }
     }
+
+    @Transactional(readOnly = true)
+    public OrderResponse getOrderById(Long orderId) {
+        return OrderResponse.from(orderRepository.findById(orderId)
+                .orElseThrow(() -> new CustomException(ORDER_IS_NOT_EXISTS)));
+    }
 }
