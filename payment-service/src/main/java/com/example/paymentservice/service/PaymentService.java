@@ -41,7 +41,7 @@ public class PaymentService {
     public PaymentResponse processPayment(Long orderId) {
         OrderResponse order = orderServiceClient.getOrder(orderId);
 
-        Payment newPayment = Payment.of(orderId, order.getUserId(), order.getTotalAmount());
+        Payment newPayment = Payment.of(order.getUserId(), orderId, order.getTotalAmount());
 
         List<ProductOrderRequest> productOrderRequests = order.getItems().stream()
                 .map(ProductOrderRequest::from)
