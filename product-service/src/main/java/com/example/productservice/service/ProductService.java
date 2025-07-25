@@ -45,6 +45,7 @@ public class ProductService {
 
                     return ProductResponse.of(
                             request.getProductId(),
+                            product != null ? product.getProductName() : null,
                             request.getQuantity(),
                             isValid,
                             product != null ? product.getAmount() : null
