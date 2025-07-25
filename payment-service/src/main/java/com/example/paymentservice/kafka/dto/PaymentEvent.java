@@ -12,14 +12,16 @@ import java.util.List;
 @Builder
 public class PaymentEvent {
     private EventType eventType;
+    private Long paymentId;
     private Long orderId;
     private Long userId;
     private List<OrderItemResponse> items;
     private LocalDateTime createdAt;
 
-    public static PaymentEvent of(EventType eventType, OrderResponse order) {
+    public static PaymentEvent of(EventType eventType, Long paymentId, OrderResponse order) {
         return PaymentEvent.builder()
                 .eventType(eventType)
+                .paymentId(paymentId)
                 .orderId(order.getOrderId())
                 .userId(order.getUserId())
                 .items(order.getItems())

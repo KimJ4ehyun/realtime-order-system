@@ -50,7 +50,7 @@ public class PaymentService {
             @Override
             public void afterCommit() {
                 EventType eventType = allStockValid ? EventType.PAYMENT_SUCCESS : EventType.PAYMENT_FAILED;
-                paymentEventProducer.sendPaymentEvent(PaymentEvent.of(eventType, order));
+                paymentEventProducer.sendPaymentEvent(PaymentEvent.of(eventType, saved.getId(), order));
             }
         });
 
