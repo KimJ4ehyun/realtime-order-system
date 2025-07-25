@@ -7,8 +7,12 @@ import com.example.paymentservice.client.dto.ProductOrderRequest;
 import com.example.paymentservice.client.dto.ProductResponse;
 import com.example.paymentservice.dto.PaymentResponse;
 import com.example.paymentservice.entity.Payment;
-import com.example.paymentservice.kafka.dto.EventType;
+import com.example.paymentservice.entity.PaymentStatus;
+import com.example.paymentservice.global.exception.CustomException;
+import com.example.paymentservice.kafka.dto.PaymentEventType;
 import com.example.paymentservice.kafka.dto.PaymentEvent;
+import com.example.paymentservice.kafka.dto.ProductEvent;
+import com.example.paymentservice.kafka.dto.ProductEventType;
 import com.example.paymentservice.kafka.producer.PaymentEventProducer;
 import com.example.paymentservice.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,8 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.List;
+
+import static com.example.paymentservice.global.exception.ErrorCode.PAYMENT_IS_NOT_EXISTS;
 
 @Service
 @Transactional
@@ -49,11 +55,20 @@ public class PaymentService {
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
             @Override
             public void afterCommit() {
-                EventType eventType = allStockValid ? EventType.PAYMENT_SUCCESS : EventType.PAYMENT_FAILED;
-                paymentEventProducer.sendPaymentEvent(PaymentEvent.of(eventType, saved.getId(), order));
+                PaymentEventType paymentEventType = allStockValid ? PaymentEventType.PAYMENT_SUCCESS : PaymentEventType.PAYMENT_FAILED;
+                paymentEventProducer.sendPaymentEvent(PaymentEvent.of(paymentEventType, saved.getId(), order));
             }
         });
 
         return PaymentResponse.from(saved);
+    }
+
+    public void handleProductEvent(ProductEvent event) {
+        if (ProductEventType.STOCK_DECREASE_FAILED.equals(event.getEventType())) {
+            Payment payment = paymentRepository.findById(event.getPaymentId())
+                    .orElseThrow(() -> new CustomException(PAYMENT_IS_NOT_EXISTS));
+
+            payment.updatePaymentStatus(PaymentStatus.FAILED);
+        }
     }
 }
