@@ -7,11 +7,15 @@ import com.example.paymentservice.client.dto.ProductOrderRequest;
 import com.example.paymentservice.client.dto.ProductResponse;
 import com.example.paymentservice.dto.PaymentResponse;
 import com.example.paymentservice.entity.Payment;
-import com.example.paymentservice.entity.PaymentStatus;
+import com.example.paymentservice.kafka.dto.EventType;
+import com.example.paymentservice.kafka.dto.PaymentEvent;
+import com.example.paymentservice.kafka.producer.PaymentEventProducer;
 import com.example.paymentservice.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.List;
 
@@ -26,6 +30,8 @@ public class PaymentService {
 
     private final ProductServiceClient productServiceClient;
 
+    private final PaymentEventProducer paymentEventProducer;
+
     public PaymentResponse processPayment(Long orderId) {
         OrderResponse order = orderServiceClient.getOrder(orderId);
 
@@ -38,12 +44,16 @@ public class PaymentService {
         boolean allStockValid = productServiceClient.getProductsWithStockValidation(productOrderRequests).stream()
                 .allMatch(ProductResponse::getIsStockValidated);
 
-        if (allStockValid) {
-            newPayment.updatePaymentStatus(PaymentStatus.SUCCESS);
-        } else {
-            newPayment.updatePaymentStatus(PaymentStatus.FAILED);
-        }
+        Payment saved = paymentRepository.save(newPayment);
 
-        return PaymentResponse.from(paymentRepository.save(newPayment));
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                EventType eventType = allStockValid ? EventType.PAYMENT_SUCCESS : EventType.PAYMENT_FAILED;
+                paymentEventProducer.sendPaymentEvent(PaymentEvent.of(eventType, order));
+            }
+        });
+
+        return PaymentResponse.from(saved);
     }
 }
