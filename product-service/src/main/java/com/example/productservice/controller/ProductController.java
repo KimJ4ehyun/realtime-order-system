@@ -16,7 +16,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/stock/validate")
+    @PostMapping("/stock/validate")
     ResponseEntity<List<ProductResponse>> getProductsWithStockValidation(@RequestBody List<ProductOrderRequest> requests) {
         return ResponseEntity.ok(productService.getProductsWithStockValidation(requests));
     }
